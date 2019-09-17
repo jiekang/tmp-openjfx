@@ -736,11 +736,12 @@ if (!file(JAVADOC).exists()) throw new Exception("Missing or incorrect path to '
 // Java(TM) SE Runtime Environment (build 1.7.0_45-b18)
 // Java HotSpot(TM) 64-Bit Server VM (build 24.45-b08, mixed mode)
 //
-// We need to parse the second line
+// We need to parse the first line with '(build...'
 def inStream = new java.io.BufferedReader(new java.io.InputStreamReader(new java.lang.ProcessBuilder(JAVA, "-version").start().getErrorStream()));
 try {
-    if (inStream.readLine() != null) {
-        String v = inStream.readLine();
+    String v = "";
+    while (v != null) {
+        v = inStream.readLine();
         if (v != null) {
             int ib = v.indexOf(" (build ");
             if (ib != -1) {
@@ -749,6 +750,7 @@ try {
                 defineProperty("jdkRuntimeVersion", ver)
                 defineProperty("jdkVersion", jdkRuntimeVersion.split("-")[0])
                 defineProperty("jdkBuildNumber", jdkRuntimeVersion.substring(jdkRuntimeVersion.lastIndexOf("-b") + 2))
+                break;
             }
         }
     }
