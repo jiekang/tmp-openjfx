@@ -121,15 +121,12 @@ bool WindowContextBase::filterIME(GdkEvent * event) {
     }
 }
 
-//Note: this function must return int, despite the fact it doesn't conform to XIMProc type.
-// This is required in documentation of XIM
-static int im_preedit_start(XIM im_xim, XPointer client, XPointer call) {
+static void im_preedit_start(XIM im_xim, XPointer client, XPointer call) {
     (void)im_xim;
     (void)call;
 
     mainEnv->CallVoidMethod((jobject) client, jViewNotifyPreeditMode, JNI_TRUE);
-    CHECK_JNI_EXCEPTION_RET(mainEnv, -1);
-    return -1; // No restrictions
+    CHECK_JNI_EXCEPTION(mainEnv);
 }
 
 static void im_preedit_done(XIM im_xim, XPointer client, XPointer call) {
@@ -233,7 +230,7 @@ void WindowContextBase::enableOrResetIME() {
             return;
         }
 
-        XIMCallback startCallback = {(XPointer) jview, (XIMProc) im_preedit_start};
+        XIMCallback startCallback = {(XPointer) jview, im_preedit_start};
         XIMCallback doneCallback = {(XPointer) jview, im_preedit_done};
         XIMCallback drawCallback = {(XPointer) jview, im_preedit_draw};
         XIMCallback caretCallback = {(XPointer) jview, im_preedit_caret};
