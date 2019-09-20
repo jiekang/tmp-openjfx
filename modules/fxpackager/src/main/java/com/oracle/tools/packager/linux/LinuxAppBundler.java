@@ -116,8 +116,8 @@ public class LinuxAppBundler extends AbstractImageBundler {
             BundleParams.PARAM_RUNTIME,
             RelativeFileSet.class,
             params -> JreUtils.extractJreAsRelativeFileSet(System.getProperty("java.home"),
-                    LINUX_JRE_RULES.fetchFrom(params)),
-            (s, p) -> JreUtils.extractJreAsRelativeFileSet(s, LINUX_JRE_RULES.fetchFrom(p))
+                    LINUX_JRE_RULES.fetchFrom(params), true),
+            (s, p) -> JreUtils.extractJreAsRelativeFileSet(s, LINUX_JRE_RULES.fetchFrom(p), true)
     );
 
     @Override
