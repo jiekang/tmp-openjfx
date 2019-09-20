@@ -135,6 +135,7 @@ def dfbLFlags = ["-ldl"]
 def lensLFlags = [extraLFlags, "-lpthread", "-ludev", "-ldl", "-lm"].flatten()
 def monocleCFlags = [
         extraCFlags,
+        "-Werror",
         "-I", file("modules/graphics/src/main/native-glass/monocle/")].flatten();
 def monocleLFlags = [extraLFlags, "-ldl", "-lm"].flatten()
 def glassCFlags = ["-ffast-math"]
