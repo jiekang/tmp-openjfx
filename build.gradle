@@ -56,7 +56,6 @@
  */
 
 plugins {
-    id 'java-library'
     id 'maven-publish'
 }
 
@@ -2742,7 +2741,7 @@ allprojects {
  *                                                                            *
  *****************************************************************************/
 
-task jfxClean() {
+task clean() {
     group = "Basic"
     description = "Deletes the build directory and the build directory of all sub projects"
     getSubprojects().each { subProject ->
@@ -2763,7 +2762,7 @@ task cleanAll() {
     }
 }
 
-task jfxJavadoc(type: Javadoc) {
+task javadoc(type: Javadoc) {
     enabled = IS_BUILD_JAVADOC
     group = "Basic"
     description = "Generates the JavaDoc for all the public API"
@@ -2918,7 +2917,7 @@ task src {
 task packageDistribution(type: Zip) {
     dependsOn(sdk)
     archiveName = "openjfx.zip"
-    destinationDir = file("build")
+    destinationDir = file("${buildDir}")
 
     from "build/sdk/rt"
 }
@@ -3229,7 +3228,7 @@ compileTargets { t ->
         dependsOn(jmxTask);
         dependsOn(jfxrtIndexTask)
         dependsOn(jfxswtIndexTask)
-        dependsOn(jfxJavadoc)
+        dependsOn(javadoc)
         dependsOn(src)
     }
 
@@ -3351,7 +3350,7 @@ project(":apps") {
               delete(ensembleLibDir);
             }
         }
-        rootProject.jfxClean.dependsOn(appsClean)
+        rootProject.clean.dependsOn(appsClean)
     }
 }
 
