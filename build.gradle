@@ -2919,7 +2919,7 @@ task packageDistribution(type: Zip) {
     archiveName = "openjfx.zip"
     destinationDir = file("${buildDir}")
 
-    from "build/sdk"
+    from "${project.buildDir}/sdk"
 }
 
 task all() {
